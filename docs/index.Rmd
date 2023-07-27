@@ -1,0 +1,102 @@
+---
+title: "Precision medicine is causal inference"
+author: Travis Gerke, ScD
+output:
+  xaringan::moon_reader:
+    css: xaringan-themer.css
+    seal: false
+---
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+# the two PCCTC colors are #0085ca and #62b5e5
+# complement of #62b5e5 is #e59262
+# #d362e5 is a tertiary
+style_duo_accent(
+  primary_color = "#62b5e5",
+  secondary_color = "#e59262",
+  colors = list(
+    blue = "#62b5e5",
+    orange = "#e59262",
+    white = "#ffffff",
+    purple = "#d362e5",
+    darkblue = "#0085ca"
+  ),
+  extra_fonts = list(google_font("Raleway"))
+)
+```
+
+class: title-slide-custom
+
+## Precision medicine is causal inference
+
+### Travis Gerke, ScD 
+
+<!-- 
+Photo by <a href="https://unsplash.com/@mbaumi?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Mika Baumeister</a> on <a href="https://unsplash.com/photos/-8qc7kPeS98?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+-->
+
+
+```{css, echo = FALSE}
+.title-slide-custom {
+  position: relative;
+  z-index: 1;
+}
+.title-slide-custom h2 {
+  font-size: 1.5em;
+  color: var(--black);
+  position: absolute;
+  bottom: 3%;
+  left: 2%;
+}
+.title-slide-custom h3 {
+  font-size: 1em;
+  color: var(--darkblue);
+  position: absolute;
+  bottom: 0%;
+  left: 2%;
+}
+.title-slide-custom::before {    
+      content: "";
+      background-image: url('images/mika-baumeister--8qc7kPeS98-unsplash.jpg');
+      background-size: cover;
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      bottom: 0px;
+      left: 0px;
+      opacity: 0.7;
+      z-index: -1;
+}
+.title-slide-custom .remark-slide-number {
+  display: none;
+}
+.blue-bg {
+  background-color: var(--blue);
+}
+.h-center {
+  margin: 0 auto;
+}
+.w-90 {
+  width: 90%;
+}
+.w-50 {
+  width: 50%;
+}
+.small-rule{
+  font-size: 1em;
+  font-weight: bold;
+  color: var(--darkblue);
+}
+
+.highlight-last-item > ul > li, 
+.highlight-last-item > ol > li {
+  opacity: 0.5;
+  color: var(--orange);
+}
+.highlight-last-item > ul > li:last-of-type,
+.highlight-last-item > ol > li:last-of-type {
+  opacity: 1;
+  font-weight: bold;
+}
+```
