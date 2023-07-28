@@ -23,6 +23,201 @@ class: title-slide-custom
 Photo by &lt;a href="https://unsplash.com/@mbaumi?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"&gt;Mika Baumeister&lt;/a&gt; on &lt;a href="https://unsplash.com/photos/-8qc7kPeS98?utm_source=unsplash&amp;utm_medium=referral&amp;utm_content=creditCopyText"&gt;Unsplash&lt;/a&gt;
 --&gt;
 
+---
+class: center, middle, blue-bg
+
+.white[tgerke.github.io/precision-medicine-causal-inference/]
+
+---
+class: blue-bg, center, middle
+
+## .white[What is precision medicine?]
+
+---
+## Precision medicine: a definition
+
+The [FDA says](https://www.fda.gov/medical-devices/in-vitro-diagnostics/precision-medicine):
+
+&gt; Precision medicine, sometimes known as "personalized medicine" is an innovative approach to tailoring disease prevention and treatment that takes into account differences in people's genes, environments, and lifestyles. The goal of precision medicine is to target the right treatments to the right patients at the right time.
+
+---
+class: blue-bg, center, middle
+
+## .white[Are polygenic risk scores precision medicine?]
+
+---
+## PRS == precision medicine?
+
+In general, no. 
+  - Reason: "the right treatment at the right time" implies a well-defined intervention
+  
+--
+
+-----
+#### .orange[Well-defined intervention]
+
+- Exposures must be factors that can be conceptualized as treatments in a randomized controlled trial
+
+- "No causation without manipulation" — [Holland (1986) JASA](https://www.jstor.org/stable/2289064)
+
+- Some things you could not manipulate in a trial (not well-defined interventions)
+  - Height
+  - Race
+  - Polygenic risk score
+
+---
+class: blue-bg, center, middle
+
+## .white[Interlude: why does this matter? Is it just philosphical semantics?]
+
+---
+## Description, prediction, and explanation
+
+* Description: see descriptive epidemiology / cross-sectional studies.
+
+* Prediction: ML, etc. See polygenic risk scores.
+
+* Explanation: Causal understanding. See precision medicine.
+
+-----
+
+**.orange[The correct causal model is often _not_ the best prediction model.]**
+
+&lt;img src="images/explain.png"&gt;
+
+---
+## The goal of precision medicine
+
+&gt; [We do not] describe the world as it exists, but rather how it would change under some defined, generally hypothetical, intervention … epidemiologists are firmly committed to this activity by virtue of the field being situated within the larger domain of public health. This disciplinary identity fixes intervention as the primary focus of epidemiologic research.
+
+[Kaufman et al. (2003) Soc Sci Med](https://pubmed.ncbi.nlm.nih.gov/14572846/)
+
+-----
+
+Related: .orange[consequential epidemiology], [Naimi et al. (2014) Int J Epidemiol](https://pubmed.ncbi.nlm.nih.gov/24860122/)
+
+-----
+
+As epidemiologists, we uniquely positioned with both the expertise and (data) resources to estimate what effects of various (hypothetical) interventions would be in certain patients
+
+---
+class: blue-bg, center, middle
+
+## .white[..end interlude..]
+
+---
+## Well-defined intervention
+
+[from previous slide]
+
+- Exposures must be factors that can be conceptualized as treatments in a randomized controlled trial
+
+- "No causation without manipulation" — [Holland (1986) JASA](https://www.jstor.org/stable/2289064)
+
+- Some things you could not manipulate in a trial (not well-defined interventions)
+  - Height
+  - Race
+  - Polygenic risk score
+
+
+---
+## Target trials
+
+Describing analysis of observational data as a (hypothetical) randomized experiment to quantify the causal effect of interest
+
+**.orange[Steps]**
+
+1. Specify the target trial that we would like to, but cannot, conduct
+  
+  - Similar to designing a trial protocol: inclusion/exclusion criteria, treatments, outcomes, start/end of follow-up, and estimates of interest
+  
+2. Describe how the observational data can be used to emulate that target trial
+
+  - Involves addressing measurement and control for confounders (e.g. through DAGs) and statistical approaches (e.g. IP weighting, etc)
+
+---
+## Exercise
+
+You have observational data with baseline characteristics and cancer treatments (let's say treatments A and B). Some patients have a somatic DDR tumor mutation and some do not. This mutation is associated with shorter survival time. 
+
+Describe how you would set up a target trial to estimate a consequential causal effect. 
+
+--
+
+-----
+
+The exercise you have just completed is analogous to what epidemiologists at real world evidence (RWE) CROs and pharma groups do.
+
+---
+## Considerations: what about effect modifiers / interactions?
+
+* In precision medicine, we are most often looking for how certain treatment strategies are more/less effective in patient subgroups
+  
+  * Statistically, you could just identify such subgroups through tests of interactions with treatment, right? 
+  
+--
+  
+  * Yes, but there is some nuance regarding "effect measure modification" versus "causal interaction"
+
+---
+## Effect measure modification
+
+* "Effect measure" in the prefix because the presence of modification depends on what scale we are looking for one (e.g. additive vs multiplicative)
+  
+  * Very light conditions on exposures and outcome associations guarantee that either additive or multiplicative effect measure modification will exist
+  
+  * In general, additive scales are preferred [Brankovic et al.](https://onlinelibrary.wiley.com/doi/10.1111/eci.13145) to determine which groups will benefit from intervention and guide decision making
+  
+  * Optional, helpful R package to estimate risk differences:
+  
+  .center[
+  &lt;a href="https://stopsack.github.io/risks/"&gt;&lt;img src = "images/risks.png" height=150px&gt;&lt;/a&gt;
+  ]
+
+---
+## Causal interactions
+
+* This requires a joint well-defined intervention
+
+  * e.g. 4 treatment groups: A only, B only, A + B, placebo
+  
+  * You have to adjust for confounding structures for _both_ treatments
+
+* This is different from what we often identify as "surrogate effect modifiers" through statistical interaction analysis
+  
+  * e.g. race, mutational status
+  
+  * Surrogate modification makes no assumptions about the mechanistic effects of the modifiers 
+  
+* Both surrogate modifiers and causal interactions are useful towards precision medicine!
+  
+  * Identification of effect modification is often the first step towards identifying an interaction
+  
+---
+## Exercise
+
+Remember [cbioportal.org](http://www.cbioportal.org/)?
+
+* Check the **TMB and Immunotherapy (MSK, Nat Genet 2019)** study
+  
+  * Primary finding: tumor mutational burden (TMB) may predict clinical response to immune checkpoint inhibitor (ICI) therapies
+
+-----
+
+1. Can you verify that claim?
+
+2. Can you describe a further precision medicine study based on this data set?
+
+---
+## Resources
+
+* [What If (free e-book); Hernan and Robins](https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/)
+
+* [Causal Inference in R (free e-book); Barrett, D'Agostino McGowan, Gerke](https://www.r-causal.org/)
+
+* [Explanation in Causal Inference (book), VanderWeele](https://global.oup.com/academic/product/explanation-in-causal-inference-9780199325870?cc=us&amp;lang=en&amp;)
+
+* [To explain or to predict? (2010) Shmueli](https://www.stat.berkeley.edu/~aldous/157/Papers/shmueli.pdf)
 
 &lt;style type="text/css"&gt;
 .title-slide-custom {
